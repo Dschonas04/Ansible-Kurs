@@ -1,0 +1,37 @@
+---
+# Level 1: Erste Schritte. Ausführen mit:
+#   ansible-playbook Level_1_Erste_Schritte/beispiel.yml
+#
+# Danach ein zweites Mal ausführen und auf "changed" achten:
+# beim zweiten Lauf steht überall ok.
+- name: Beispiele zu Modulen und Idempotenz
+  hosts: uebung
+  gather_facts: false
+  vars:
+    ordner: /tmp/ansible-kurs-beispiel
+
+  tasks:
+    - name: Verzeichnis anlegen
+      ansible.builtin.file:
+        path: "{{ ordner }}"
+        state: directory
+        mode: "0755"
+
+    - name: Datei mit festem Inhalt schreiben
+      ansible.builtin.copy:
+        dest: "{{ ordner }}/hallo.txt"
+        content: |
+          Hallo aus Ansible.
+          Diese Datei beschreibt einen Zustand, keinen Befehl.
+        mode: "0644"
+
+    - name: Etwas ausgeben
+      ansible.builtin.debug:
+        msg: "Angelegt unter {{ ordner }}"
+
+    - name: Zum Vergleich -- so macht man es NICHT
+      ansible.builtin.command: "mkdir -p {{ ordner }}/mit-befehl"
+      changed_when: false
+      # command weiß nicht, ob etwas zu tun war. Deshalb muss man
+      # changed_when von Hand setzen, sonst meldet der Task bei jedem
+      # Lauf "changed" -- und die Ausgabe wird wertlos.

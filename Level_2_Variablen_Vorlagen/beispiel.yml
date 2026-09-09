@@ -1,0 +1,45 @@
+---
+# Level 2: Variablen, Fakten, Vorlagen.
+#   ansible-playbook Level_2_Variablen_Vorlagen/beispiel.yml
+- name: Variablen und Vorlagen
+  hosts: uebung
+  gather_facts: true
+  vars:
+    ordner: /tmp/ansible-kurs-beispiel2
+    dienst_name: kursdienst
+    dienst_port: 8080
+    knoten:
+      - alpha
+      - beta
+
+  tasks:
+    - name: Verzeichnis
+      ansible.builtin.file:
+        path: "{{ ordner }}"
+        state: directory
+        mode: "0755"
+
+    - name: Ein Fakt über diesen Rechner
+      ansible.builtin.debug:
+        msg: >-
+          {{ ansible_facts['hostname'] }} läuft als
+          {{ ansible_facts['os_family'] }}
+
+    - name: Filter im Einsatz
+      ansible.builtin.debug:
+        msg: "{{ knoten | join(', ') | upper }} ({{ knoten | length }} Stück)"
+
+    - name: Vorlage füllen
+      ansible.builtin.template:
+        src: dienst.conf.j2
+        dest: "{{ ordner }}/dienst.conf"
+        mode: "0644"
+
+    - name: Ergebnis zurücklesen
+      ansible.builtin.slurp:
+        src: "{{ ordner }}/dienst.conf"
+      register: erzeugt
+
+    - name: Ergebnis zeigen
+      ansible.builtin.debug:
+        msg: "{{ (erzeugt.content | b64decode).split('\n') }}"

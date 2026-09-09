@@ -1,0 +1,17 @@
+---
+# ================================================================
+#  Abschlussaufgabe. Die Beschreibung steht in aufgabe.txt.
+#  Die Vorlage dienst.conf.j2 liegt neben dieser Datei -- oder
+#  du schreibst dir eine eigene.
+# ================================================================
+- name: Abschluss
+  hosts: uebung
+  gather_facts: true
+  vars:
+    ordner: /tmp/ansible-kurs/abschluss
+    dienste:
+      - { name: web, port: 80, aktiv: true }
+      - { name: api, port: 8080, aktiv: true }
+      - { name: alt, port: 8081, aktiv: false }
+
+  tasks: []

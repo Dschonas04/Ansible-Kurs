@@ -1,0 +1,46 @@
+---
+# ================================================================
+#  Level 1: Erste Schritte -- AUFGABEN
+#  Ersetze jedes ___ durch das Richtige.
+#  Prüfen mit:  ./pruefen.sh 1
+# ================================================================
+- name: Level 1
+  hosts: uebung
+  gather_facts: false
+  vars:
+    ordner: /tmp/ansible-kurs/level1
+
+  tasks:
+    # ── AUFGABE 1.1 ────────────────────────────────────────────
+    # Lege das Verzeichnis {{ ordner }} an, mit den Rechten 0755.
+    - name: Verzeichnis anlegen
+      ansible.builtin.___:
+        path: "{{ ordner }}"
+        state: ___
+        mode: "___"
+
+    # ── AUFGABE 1.2 ────────────────────────────────────────────
+    # Schreibe die Datei notiz.txt in das Verzeichnis, mit genau
+    # dem Inhalt "Ansible beschreibt Zustand." und einem Zeilenumbruch.
+    - name: Datei schreiben
+      ansible.builtin.___:
+        dest: "{{ ordner }}/notiz.txt"
+        ___: "Ansible beschreibt Zustand.\n"
+        mode: "0644"
+
+    # ── AUFGABE 1.3 ────────────────────────────────────────────
+    # Lege eine LEERE Datei leer.txt an, und zwar so, dass ein
+    # zweiter Lauf nichts mehr ändert.
+    # Achtung: state: touch im file-Modul meldet jedes Mal "changed".
+    - name: Leere Datei
+      ansible.builtin.copy:
+        dest: "{{ ordner }}/leer.txt"
+        content: ___
+        mode: "0644"
+
+    # ── AUFGABE 1.4 ────────────────────────────────────────────
+    # Entferne die Datei alt.txt, falls es sie gibt.
+    - name: Alte Datei entfernen
+      ansible.builtin.file:
+        path: "{{ ordner }}/alt.txt"
+        state: ___

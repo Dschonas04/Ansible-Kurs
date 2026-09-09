@@ -1,0 +1,49 @@
+---
+- name: Level 2
+  hosts: uebung
+  gather_facts: true
+  vars:
+    ordner: /tmp/ansible-kurs/level2
+    dienst_name: kursdienst
+    dienst_port: 9090
+    knoten:
+      - alpha
+      - beta
+      - gamma
+
+  tasks:
+    - name: Verzeichnis
+      ansible.builtin.file:
+        path: "{{ ordner }}"
+        state: directory
+        mode: "0755"
+
+    - name: Knoten als Text
+      ansible.builtin.copy:
+        dest: "{{ ordner }}/namen.txt"
+        content: "{{ knoten | join(', ') | upper }}\n"
+        mode: "0644"
+
+    - name: Anzahl
+      ansible.builtin.copy:
+        dest: "{{ ordner }}/anzahl.txt"
+        content: "{{ knoten | length }}\n"
+        mode: "0644"
+
+    - name: Hostname
+      ansible.builtin.copy:
+        dest: "{{ ordner }}/rechner.txt"
+        content: "{{ ansible_facts['hostname'] }}\n"
+        mode: "0644"
+
+    - name: Vorlage füllen
+      ansible.builtin.template:
+        src: dienst.conf.j2
+        dest: "{{ ordner }}/dienst.conf"
+        mode: "0644"
+
+    - name: Vorgabewert
+      ansible.builtin.copy:
+        dest: "{{ ordner }}/port.txt"
+        content: "{{ nicht_gesetzter_port | default(8080) }}\n"
+        mode: "0644"

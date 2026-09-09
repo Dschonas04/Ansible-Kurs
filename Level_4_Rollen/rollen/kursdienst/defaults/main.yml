@@ -1,0 +1,8 @@
+---
+# Vorgabewerte der Rolle. Alles hier lässt sich von außen überschreiben.
+kursdienst_ordner: /tmp/ansible-kurs/level4
+kursdienst_name: kursdienst
+kursdienst_port: 8080
+kursdienst_knoten:
+  - alpha
+  - beta

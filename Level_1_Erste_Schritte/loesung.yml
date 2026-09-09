@@ -1,0 +1,30 @@
+---
+- name: Level 1
+  hosts: uebung
+  gather_facts: false
+  vars:
+    ordner: /tmp/ansible-kurs/level1
+
+  tasks:
+    - name: Verzeichnis anlegen
+      ansible.builtin.file:
+        path: "{{ ordner }}"
+        state: directory
+        mode: "0755"
+
+    - name: Datei schreiben
+      ansible.builtin.copy:
+        dest: "{{ ordner }}/notiz.txt"
+        content: "Ansible beschreibt Zustand.\n"
+        mode: "0644"
+
+    - name: Leere Datei
+      ansible.builtin.copy:
+        dest: "{{ ordner }}/leer.txt"
+        content: ""
+        mode: "0644"
+
+    - name: Alte Datei entfernen
+      ansible.builtin.file:
+        path: "{{ ordner }}/alt.txt"
+        state: absent

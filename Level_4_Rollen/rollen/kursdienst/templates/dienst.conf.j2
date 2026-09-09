@@ -1,0 +1,9 @@
+# erzeugt von der Rolle kursdienst
+[dienst]
+name = {{ kursdienst_name }}
+port = {{ kursdienst_port }}
+
+[knoten]
+{% for k in kursdienst_knoten %}
+{{ loop.index }} = {{ k }}
+{% endfor %}

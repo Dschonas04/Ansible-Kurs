@@ -1,0 +1,95 @@
+════════════════════════════════════════════════════════════════
+  LEVEL 3: Schleifen, Bedingungen, Handler
+════════════════════════════════════════════════════════════════
+
+  Lernziel: Ein Task für viele Werte, Tasks die nur manchmal
+  laufen, und Arbeit, die erst am Ende erledigt wird.
+
+
+  Schleifen
+  ─────────────
+      - name: Mehrere Verzeichnisse
+        ansible.builtin.file:
+          path: "/tmp/kurs/{{ item }}"
+          state: directory
+        loop:
+          - eins
+          - zwei
+
+  item ist der aktuelle Wert. Umbenennen geht mit loop_control:
+
+      loop_control:
+        loop_var: ordner
+
+  Schleife über Wörterbücher:
+
+      loop:
+        - { name: alpha, port: 80 }
+        - { name: beta,  port: 443 }
+      ...
+        content: "{{ item.name }}:{{ item.port }}"
+
+  Über ein Wörterbuch aus Variablen: loop: "{{ dienste | dict2items }}",
+  dann item.key und item.value.
+
+  Das alte with_items funktioniert noch, loop ist seit 2.5 die
+  empfohlene Form.
+
+
+  Bedingungen
+  ─────────────
+      - name: Nur auf Debian
+        ansible.builtin.debug:
+          msg: "Debian erkannt"
+        when: ansible_facts['os_family'] == "Debian"
+
+  In when steht ein Ausdruck OHNE {{ }} -- die Klammern sind schon da.
+  Mehrere Bedingungen als Liste sind ein logisches UND:
+
+      when:
+        - datei_da
+        - umgebung == "kurs"
+
+  Ein übersprungener Task meldet skipped. Das ist kein Fehler.
+
+
+  Ergebnisse prüfen
+  ─────────────
+      - name: Nachsehen, ob es die Datei gibt
+        ansible.builtin.stat:
+          path: /tmp/kurs/marke
+        register: marke
+
+      - name: Nur dann etwas tun
+        ansible.builtin.copy:
+          dest: /tmp/kurs/folge.txt
+          content: "war da\n"
+        when: marke.stat.exists
+
+  register hält die ganze Antwort des Moduls. Was drinsteht, zeigt
+  ein debug: var=marke.
+
+
+  Handler
+  ─────────────
+  Ein Handler läuft nur, wenn ihn jemand benachrichtigt -- und zwar
+  einmal am Ende, egal wie oft er benachrichtigt wurde.
+
+      tasks:
+        - name: Konfiguration schreiben
+          ansible.builtin.copy:
+            dest: /tmp/kurs/dienst.conf
+            content: "port = 8080\n"
+          notify: Dienst neu starten
+
+      handlers:
+        - name: Dienst neu starten
+          ansible.builtin.copy:
+            dest: /tmp/kurs/neustart.marke
+            content: "neu gestartet\n"
+
+  Benachrichtigt wird nur bei changed. Ändert sich die Konfiguration
+  nicht, bleibt der Neustart aus -- genau das will man.
+
+  Der Name im notify muss auf das Zeichen zum Namen des Handlers
+  passen. Tippfehler fallen nicht auf, der Handler bleibt einfach aus.

@@ -1,0 +1,78 @@
+════════════════════════════════════════════════════════════════
+  LEVEL 4: Rollen
+════════════════════════════════════════════════════════════════
+
+  Lernziel: Du zerlegst ein Playbook in eine Rolle -- damit dieselbe
+  Arbeit an zwei Stellen nicht zweimal dasteht.
+
+
+  Warum
+  ─────────────
+  Ein Playbook mit vierzig Tasks für drei Dienste ist unlesbar, und
+  der Teil "Nutzer anlegen" steht darin dreimal leicht verschieden.
+  Eine Rolle ist derselbe Inhalt, nur benannt und wiederverwendbar.
+
+
+  Aufbau
+  ─────────────
+      rollen/
+        kursdienst/
+          tasks/main.yml        die Tasks (Pflicht)
+          defaults/main.yml     Vorgabewerte, überschreibbar
+          vars/main.yml         feste Werte, schwer überschreibbar
+          templates/x.j2        Vorlagen
+          files/y.txt           Dateien zum Kopieren
+          handlers/main.yml     Handler
+
+  Ansible lädt diese Dateien von selbst, sobald die Rolle benutzt
+  wird. Kein include, kein Pfad.
+
+
+  Benutzen
+  ─────────────
+      - name: Spiel mit Rolle
+        hosts: uebung
+        roles:
+          - kursdienst
+
+  Oder mit eigenen Werten:
+
+      roles:
+        - role: kursdienst
+          dienst_port: 9000
+
+  Gesucht wird in roles/ neben dem Playbook, oder wo roles_path in
+  der ansible.cfg hinzeigt. Hier steht:
+
+      roles_path = ./Level_4_Rollen/rollen
+
+
+  defaults oder vars
+  ─────────────
+  defaults/main.yml   niedrigste Rangstufe. Alles, was jemand von
+                      außen ändern können soll.
+  vars/main.yml       hohe Rangstufe. Nur, was zur Rolle gehört und
+                      nicht angetastet werden darf.
+
+  Faustregel: fast alles gehört nach defaults. Wer vars nimmt, damit
+  ein Wert "sicher" gilt, macht die Rolle unbrauchbar für den
+  nächsten Fall.
+
+
+  Pfade in einer Rolle
+  ─────────────
+  In einer Rolle sind Pfade relativ zur Rolle:
+
+      ansible.builtin.template:
+        src: dienst.conf.j2        → rollen/kursdienst/templates/dienst.conf.j2
+
+      ansible.builtin.copy:
+        src: liesmich.txt          → rollen/kursdienst/files/liesmich.txt
+
+
+  Was eine gute Rolle ausmacht
+  ─────────────
+  * Sie tut eine Sache.
+  * Ihre Werte stehen in defaults, nicht mitten in den Tasks.
+  * Sie ist idempotent -- zweimal laufen ändert nichts.
+  * Sie benachrichtigt Handler, statt selbst neu zu starten.

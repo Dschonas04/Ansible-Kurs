@@ -1,0 +1,93 @@
+════════════════════════════════════════════════════════════════
+  LEVEL 2: Variablen, Fakten und Vorlagen
+════════════════════════════════════════════════════════════════
+
+  Lernziel: Du schreibst Playbooks, die nicht für einen Rechner
+  gelten, sondern für viele -- weil das Besondere in Variablen steht.
+
+
+  Wo Variablen herkommen
+  ─────────────
+  vars:                     im Playbook
+  vars_files:               aus einer eigenen Datei
+  group_vars/<gruppe>.yml   für eine Gruppe des Inventars
+  host_vars/<rechner>.yml   für einen einzelnen Rechner
+  --extra-vars              beim Aufruf, gewinnt gegen alles andere
+  register:                 Ergebnis eines Tasks
+
+  Es gibt mehr als zwanzig Quellen mit einer festen Rangfolge. Für
+  den Anfang reicht: extra-vars schlägt Playbook schlägt Inventar.
+
+
+  Benutzen
+  ─────────────
+      {{ name }}                    in Werten und Vorlagen
+      "{{ ordner }}/datei.txt"      als Teil eines Textes
+      "{{ zahl | int + 1 }}"        mit Filter
+
+  Ein Wert, der mit {{ beginnt, muss in Anführungszeichen -- sonst
+  hält YAML es für ein Objekt.
+
+
+  Fakten
+  ─────────────
+  Mit gather_facts: true sammelt Ansible vor den Tasks Angaben über
+  den Rechner:
+
+      ansible_facts['hostname']
+      ansible_facts['os_family']       Debian, RedHat …
+      ansible_facts['distribution']
+      ansible_facts['default_ipv4']['address']
+
+  Ansehen kann man alles mit:
+
+      ansible uebung -m ansible.builtin.setup
+
+
+  Filter
+  ─────────────
+  {{ text | upper }}                  Großbuchstaben
+  {{ liste | length }}                Anzahl
+  {{ liste | join(', ') }}            zusammenfügen
+  {{ wert | default('leer') }}        Vorgabe, falls nicht gesetzt
+  {{ zahl | int }}                    als Zahl lesen
+  {{ pfad | basename }}               Dateiname ohne Verzeichnis
+
+
+  Vorlagen
+  ─────────────
+  template nimmt eine Datei mit {{ ... }} darin und schreibt sie
+  gefüllt heraus:
+
+      - name: Konfiguration schreiben
+        ansible.builtin.template:
+          src: dienst.conf.j2
+          dest: /tmp/dienst.conf
+          mode: "0644"
+
+  In der .j2-Datei:
+
+      name = {{ dienst_name }}
+      port = {{ dienst_port | default(8080) }}
+      {% for h in rechner %}
+      knoten = {{ h }}
+      {% endfor %}
+
+  copy schreibt festen Text, template schreibt gefüllten. Sobald
+  eine Variable im Inhalt vorkommt, ist template das richtige Modul.
+
+  src wird relativ zum Playbook gesucht, nicht relativ zu dem
+  Verzeichnis, aus dem du ansible-playbook aufrufst -- und zusätzlich
+  in einem Unterordner templates/ daneben. Liegt die Vorlage neben
+  dem Playbook, genügt der reine Dateiname.
+
+
+  Ergebnisse merken
+  ─────────────
+      - name: Datei lesen
+        ansible.builtin.slurp:
+          src: /tmp/x.txt
+        register: gelesen
+
+      - ansible.builtin.debug:
+          msg: "{{ gelesen.content | b64decode }}"

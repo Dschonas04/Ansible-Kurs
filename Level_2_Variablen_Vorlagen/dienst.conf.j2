@@ -1,0 +1,12 @@
+# Diese Datei erzeugt Ansible. Änderungen von Hand gehen beim
+# nächsten Lauf verloren.
+[dienst]
+name = {{ dienst_name }}
+port = {{ dienst_port }}
+umgebung = {{ umgebung | default('unbekannt') }}
+
+[knoten]
+{% for k in knoten %}
+{{ loop.index }} = {{ k }}
+{% endfor %}
+anzahl = {{ knoten | length }}

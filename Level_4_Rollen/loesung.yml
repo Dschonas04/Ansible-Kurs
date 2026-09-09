@@ -1,0 +1,11 @@
+---
+- name: Level 4
+  hosts: uebung
+  gather_facts: false
+  roles:
+    - role: kursdienst
+      kursdienst_port: 9443
+      kursdienst_knoten:
+        - eins
+        - zwei
+        - drei

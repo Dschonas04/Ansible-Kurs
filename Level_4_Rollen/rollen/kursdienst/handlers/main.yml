@@ -1,0 +1,6 @@
+---
+- name: Dienst neu starten
+  ansible.builtin.copy:
+    dest: "{{ kursdienst_ordner }}/neustart.marke"
+    content: "neu gestartet\n"
+    mode: "0644"

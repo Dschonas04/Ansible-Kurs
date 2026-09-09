@@ -1,0 +1,76 @@
+════════════════════════════════════════════════════════════════
+  LEVEL 1: Erste Schritte
+════════════════════════════════════════════════════════════════
+
+  Lernziel: Du verstehst, was ein Playbook ist, und legst mit
+  Modulen Dateien und Verzeichnisse an.
+
+
+  Die drei Begriffe
+  ─────────────
+  Inventar   Liste der Rechner (inventar.ini)
+  Playbook   Was auf ihnen geschehen soll (eine YAML-Datei)
+  Modul      Ein einzelner Handgriff: file, copy, template, apt …
+
+
+  Ein Playbook
+  ─────────────
+      ---
+      - name: Was dieses Spiel tut
+        hosts: uebung
+        gather_facts: false
+        tasks:
+          - name: Verzeichnis anlegen
+            ansible.builtin.file:
+              path: /tmp/kurs
+              state: directory
+
+  Ausgeführt mit:
+
+      ansible-playbook aufgabe.yml
+
+
+  Ansible beschreibt Zustand, keine Befehle
+  ─────────────
+  "state: directory" heißt: hinterher soll es dieses Verzeichnis
+  geben. Ist es schon da, tut Ansible nichts und meldet ok. Ist es
+  nicht da, legt es an und meldet changed.
+
+  Das ist der Kern: ein Playbook zweimal laufen zu lassen, muss
+  dasselbe Ergebnis haben wie einmal. Das nennt man idempotent.
+  Ein Skript mit "mkdir /tmp/kurs" ist es nicht -- beim zweiten Mal
+  scheitert es.
+
+
+  Module für den Anfang
+  ─────────────
+  file        Datei, Verzeichnis, Verknüpfung, Rechte
+  copy        Inhalt hinschreiben (content:) oder Datei kopieren
+  template    wie copy, aber mit Variablen (Jinja2)
+  debug       etwas ausgeben, zum Nachsehen
+  command     ein Befehl -- die letzte Wahl, nicht die erste
+
+  Die vollen Namen (ansible.builtin.file) sind seit Ansible 2.10
+  üblich. Kurz geht auch, aber lang ist eindeutig.
+
+
+  Ausgabe lesen
+  ─────────────
+  ok        war schon so, nichts getan
+  changed   wurde geändert
+  failed    ging schief
+
+  Beim zweiten Lauf sollte alles ok sein. Steht dort immer noch
+  changed, ist die Aufgabe nicht sauber beschrieben -- meist, weil
+  jemand command benutzt hat, wo ein Modul gereicht hätte.
+
+  Eine Ausnahme mit Ansage: file mit state: touch setzt die Zeit
+  der Datei neu und meldet deshalb IMMER changed. Wer eine leere
+  Datei will, die beim zweiten Lauf ruhig bleibt, nimmt
+
+      ansible.builtin.copy:
+        dest: /pfad/leer.txt
+        content: ""
+
+  Das ist kein Detail: an solchen Stellen entscheidet sich, ob die
+  Ausgabe eines Laufs noch etwas aussagt.

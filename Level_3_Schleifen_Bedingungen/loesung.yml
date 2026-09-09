@@ -1,0 +1,61 @@
+---
+- name: Level 3
+  hosts: uebung
+  gather_facts: true
+  vars:
+    ordner: /tmp/ansible-kurs/level3
+    dienste:
+      - { name: web, port: 80 }
+      - { name: api, port: 8080 }
+      - { name: mail, port: 25 }
+
+  tasks:
+    - name: Grundverzeichnis
+      ansible.builtin.file:
+        path: "{{ ordner }}"
+        state: directory
+        mode: "0755"
+
+    - name: Drei Verzeichnisse
+      ansible.builtin.file:
+        path: "{{ ordner }}/{{ item }}"
+        state: directory
+        mode: "0755"
+      loop:
+        - alpha
+        - beta
+        - gamma
+
+    - name: Konfigurationen
+      ansible.builtin.copy:
+        dest: "{{ ordner }}/{{ item.name }}.conf"
+        content: "port = {{ item.port }}\n"
+        mode: "0644"
+      loop: "{{ dienste }}"
+      notify: Marke setzen
+
+    - name: Nur auf Debian
+      ansible.builtin.copy:
+        dest: "{{ ordner }}/familie.txt"
+        content: "Debian\n"
+        mode: "0644"
+      when: ansible_facts['os_family'] == "Debian"
+
+    - name: Nachsehen
+      ansible.builtin.stat:
+        path: "{{ ordner }}/web.conf"
+      register: web
+
+    - name: Größe festhalten
+      ansible.builtin.copy:
+        dest: "{{ ordner }}/groesse.txt"
+        content: "{{ web.stat.size }}\n"
+        mode: "0644"
+      when: web.stat.exists
+
+  handlers:
+    - name: Marke setzen
+      ansible.builtin.copy:
+        dest: "{{ ordner }}/marke.txt"
+        content: "geaendert\n"
+        mode: "0644"

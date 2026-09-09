@@ -1,0 +1,40 @@
+════════════════════════════════════════════════════════════════
+  ABSCHLUSS: Eine Rolle, die etwas ausliefert
+════════════════════════════════════════════════════════════════
+
+  Schreibe in aufgabe.yml ein Playbook, das unter
+  /tmp/ansible-kurs/abschluss eine kleine Auslieferung erzeugt.
+  Alles aus den vier Leveln kommt darin vor.
+
+  Verlangt ist:
+
+  1. Das Verzeichnis /tmp/ansible-kurs/abschluss mit Rechten 0755.
+
+  2. Ein Unterverzeichnis je Dienst aus dieser Liste, mit EINEM Task:
+
+         dienste:
+           - { name: web,  port: 80,   aktiv: true  }
+           - { name: api,  port: 8080, aktiv: true  }
+           - { name: alt,  port: 8081, aktiv: false }
+
+  3. Für jeden AKTIVEN Dienst eine Datei <name>/dienst.conf mit
+     genau diesem Inhalt (aus einer Vorlage, nicht aus copy):
+
+         name = web
+         port = 80
+         rechner = <hostname des Rechners>
+
+     Für den nicht aktiven Dienst darf keine Datei entstehen.
+
+  4. Eine Datei uebersicht.txt im Grundverzeichnis mit den Namen
+     der aktiven Dienste, durch Komma und Leerzeichen getrennt:
+
+         web, api
+
+  5. Ein Handler "Auslieferung vermerken", der ausgeliefert.txt mit
+     dem Inhalt "fertig" schreibt. Er wird von den Konfigurationen
+     benachrichtigt und läuft genau einmal.
+
+  6. Das Playbook ist idempotent: der zweite Lauf meldet changed=0.
+
+  Prüfen mit:  ./pruefen.sh

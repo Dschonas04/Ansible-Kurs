@@ -1,0 +1,20 @@
+---
+# Musterlösung der Rollen-Tasks (Level 4).
+- name: Verzeichnis der Rolle
+  ansible.builtin.file:
+    path: "{{ kursdienst_ordner }}"
+    state: directory
+    mode: "0755"
+
+- name: Konfiguration schreiben
+  ansible.builtin.template:
+    src: dienst.conf.j2
+    dest: "{{ kursdienst_ordner }}/dienst.conf"
+    mode: "0644"
+  notify: Dienst neu starten
+
+- name: Namen festhalten
+  ansible.builtin.copy:
+    dest: "{{ kursdienst_ordner }}/name.txt"
+    content: "{{ kursdienst_name }}\n"
+    mode: "0644"

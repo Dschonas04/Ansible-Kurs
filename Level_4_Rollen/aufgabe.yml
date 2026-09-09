@@ -1,0 +1,18 @@
+---
+# Dieses Playbook ruft nur die Rolle auf. Die Arbeit steckt in
+# rollen/kursdienst/tasks/main.yml -- dort ist die Aufgabe.
+#
+# ── AUFGABE 4.4 ────────────────────────────────────────────────
+# Rufe die Rolle kursdienst auf und setze dabei den Port auf 9443
+# sowie die Knoten auf [eins, zwei, drei] -- ohne defaults/main.yml
+# zu ändern.
+- name: Level 4
+  hosts: uebung
+  gather_facts: false
+  roles:
+    - role: ___
+      ___: 9443
+      ___:
+        - eins
+        - zwei
+        - drei
