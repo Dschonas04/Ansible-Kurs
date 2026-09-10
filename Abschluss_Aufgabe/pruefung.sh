@@ -2,7 +2,7 @@
 set -u
 spiel="$1"; ordner=/tmp/ansible-kurs/abschluss
 rm -rf "$ordner"
-ausgabe="$(cd "$(dirname "$spiel")/.." && ansible-playbook "$spiel" 2>&1)"
+ausgabe="$(ansible-playbook "$spiel" 2>&1)"
 pruefe "Abschluss: läuft ohne Fehler" "$(grep -c 'failed=[1-9]' <<<"$ausgabe")" "0"
 pruefe "Abschluss: Grundverzeichnis 0755" "$([ -d "$ordner" ] && stat -c '%a' "$ordner")" "755"
 pruefe "Abschluss: drei Verzeichnisse" \
@@ -17,6 +17,6 @@ pruefe "Abschluss: alt bleibt ohne Konfiguration" \
 pruefe "Abschluss: Übersicht" "$(cat "$ordner/uebersicht.txt" 2>/dev/null)" "web, api"
 pruefe "Abschluss: Handler gelaufen" "$(cat "$ordner/ausgeliefert.txt" 2>/dev/null)" "fertig"
 
-zweiter="$(cd "$(dirname "$spiel")/.." && ansible-playbook "$spiel" 2>&1)"
+zweiter="$(ansible-playbook "$spiel" 2>&1)"
 pruefe "Abschluss: zweiter Lauf ändert nichts" \
   "$(sed -n 's/.*changed=\([0-9]*\).*/\1/p' <<<"$zweiter" | tail -1)" "0"

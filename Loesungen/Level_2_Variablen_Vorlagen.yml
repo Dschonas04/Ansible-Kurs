@@ -38,7 +38,8 @@
 
     - name: Vorlage füllen
       ansible.builtin.template:
-        src: dienst.conf.j2
+        # Die Vorlage liegt beim Level, diese Lösung in Loesungen/.
+        src: ../Level_2_Variablen_Vorlagen/dienst.conf.j2
         dest: "{{ ordner }}/dienst.conf"
         mode: "0644"
 

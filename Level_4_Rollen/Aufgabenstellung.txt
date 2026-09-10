@@ -1,0 +1,38 @@
+════════════════════════════════════════════════════════════════
+  LEVEL 4: Rollen -- AUFGABENSTELLUNG
+════════════════════════════════════════════════════════════════
+
+  Schreibe dein Playbook in uebung.yml. Du fängst mit einem
+  leeren Gerüst an -- es gibt nichts auszufüllen, nur zu bauen.
+
+  Alles läuft gegen den eigenen Rechner (connection=local) und
+  schreibt nach /tmp/ansible-kurs/level4.
+
+  Die Tasks der Rolle stehen in rollen/kursdienst/tasks/main.yml.
+  Dort ist der eine Teil der Aufgabe, in uebung.yml der andere.
+
+  Prüfen mit:  ./pruefen.sh 4
+  Musterlösung danach:  Loesungen/Level_4_Rollen.yml
+
+  AUFGABE 4.4
+  ──────────────────────────────────
+  Rufe die Rolle kursdienst auf und setze dabei den Port auf 9443
+  sowie die Knoten auf [eins, zwei, drei] -- ohne defaults/main.yml
+  zu ändern.
+
+  In der Rolle (rollen/kursdienst/tasks/main.yml):
+
+  AUFGABE 4.1
+  ──────────────────────────────────
+  Lege das Verzeichnis der Rolle an (Vorgabewert aus defaults).
+
+  AUFGABE 4.2
+  ──────────────────────────────────
+  Fülle die Vorlage dienst.conf.j2 nach <ordner>/dienst.conf.
+  In einer Rolle genügt der reine Dateiname als src.
+
+  AUFGABE 4.3
+  ──────────────────────────────────
+  Schreibe name.txt mit dem Namen des Dienstes.
+  Der Prüfer lässt das Playbook zweimal laufen, wo Idempotenz
+  verlangt ist: der zweite Lauf muss changed=0 melden.

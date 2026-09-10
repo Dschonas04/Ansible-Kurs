@@ -5,7 +5,7 @@ ordner=/tmp/ansible-kurs/level1
 rm -rf /tmp/ansible-kurs
 mkdir -p "$ordner"; : > "$ordner/alt.txt"
 
-ausgabe="$(cd "$(dirname "$spiel")/.." && ansible-playbook "$spiel" 2>&1)"
+ausgabe="$(ansible-playbook "$spiel" 2>&1)"
 pruefe "1.0 Playbook läuft ohne Fehler" \
   "$(grep -c 'failed=[1-9]' <<<"$ausgabe")" "0"
 pruefe "1.1 Verzeichnis mit Rechten 0755" \
@@ -18,6 +18,6 @@ pruefe "1.4 alt.txt ist weg" \
   "$([ -e "$ordner/alt.txt" ] && echo da || echo weg)" "weg"
 
 # Der zweite Lauf darf nichts mehr ändern.
-zweiter="$(cd "$(dirname "$spiel")/.." && ansible-playbook "$spiel" 2>&1)"
+zweiter="$(ansible-playbook "$spiel" 2>&1)"
 geaendert="$(sed -n 's/.*changed=\([0-9]*\).*/\1/p' <<<"$zweiter" | tail -1)"
 pruefe "1.5 zweiter Lauf ändert nichts (Idempotenz)" "${geaendert:-x}" "0"

@@ -10,12 +10,15 @@ fremde Maschinen, geschrieben wird ausschließlich unter `/tmp/ansible-kurs`.
 
 Jedes Level hat vier Dateien:
 
-| Datei          | Zweck                                        |
-| -------------- | -------------------------------------------- |
-| `theorie.txt`  | Konzepte lesen und verstehen                 |
-| `beispiel.yml` | Lauffähiges Playbook zum Ausprobieren        |
-| `aufgabe.yml`  | Selbst lösen, Lücken mit `___` ausfüllen     |
-| `loesung.yml`  | Musterlösung, erst nach dem eigenen Versuch  |
+| Datei                  | Zweck                                     |
+| ---------------------- | ----------------------------------------- |
+| `theorie.txt`          | Konzepte lesen und verstehen              |
+| `beispiel.yml`         | Lauffähiges Playbook zum Ausprobieren     |
+| `Aufgabenstellung.txt` | was zu tun ist, in Worten                 |
+| `uebung.yml`           | dein Playbook -- ein leeres Gerüst zum Anfangen |
+
+Die Musterlösungen liegen **nicht** neben der Aufgabe, sondern gesammelt
+in [`Loesungen/`](Loesungen/). Wer sie sehen will, muss hingehen.
 
 ## Los geht es
 
@@ -30,6 +33,7 @@ Ein Playbook von Hand ausführen:
 
 ```bash
 ansible-playbook Level_1_Erste_Schritte/beispiel.yml
+ansible-playbook Level_1_Erste_Schritte/uebung.yml
 ```
 
 ## Level

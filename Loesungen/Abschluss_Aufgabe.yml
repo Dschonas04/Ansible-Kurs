@@ -25,7 +25,7 @@
 
     - name: Konfiguration je aktivem Dienst
       ansible.builtin.template:
-        src: dienst.conf.j2
+        src: ../Abschluss_Aufgabe/dienst.conf.j2
         dest: "{{ ordner }}/{{ item.name }}/dienst.conf"
         mode: "0644"
       loop: "{{ dienste }}"

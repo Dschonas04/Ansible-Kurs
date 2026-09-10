@@ -1,0 +1,34 @@
+════════════════════════════════════════════════════════════════
+  LEVEL 1: Erste Schritte -- AUFGABENSTELLUNG
+════════════════════════════════════════════════════════════════
+
+  Schreibe dein Playbook in uebung.yml. Du fängst mit einem
+  leeren Gerüst an -- es gibt nichts auszufüllen, nur zu bauen.
+
+  Alles läuft gegen den eigenen Rechner (connection=local) und
+  schreibt nach /tmp/ansible-kurs/level1.
+
+  Prüfen mit:  ./pruefen.sh 1
+  Musterlösung danach:  Loesungen/Level_1_Erste_Schritte.yml
+
+  AUFGABE 1.1
+  ──────────────────────────────────
+  Lege das Verzeichnis {{ ordner }} an, mit den Rechten 0755.
+
+  AUFGABE 1.2
+  ──────────────────────────────────
+  Schreibe die Datei notiz.txt in das Verzeichnis, mit genau
+  dem Inhalt "Ansible beschreibt Zustand." und einem Zeilenumbruch.
+
+  AUFGABE 1.3
+  ──────────────────────────────────
+  Lege eine LEERE Datei leer.txt an, und zwar so, dass ein
+  zweiter Lauf nichts mehr ändert.
+  Achtung: state: touch im file-Modul meldet jedes Mal "changed".
+
+  AUFGABE 1.4
+  ──────────────────────────────────
+  Entferne die Datei alt.txt, falls es sie gibt.
+
+  Der Prüfer lässt das Playbook zweimal laufen, wo Idempotenz
+  verlangt ist: der zweite Lauf muss changed=0 melden.

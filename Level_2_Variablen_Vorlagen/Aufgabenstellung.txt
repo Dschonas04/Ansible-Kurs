@@ -1,0 +1,39 @@
+════════════════════════════════════════════════════════════════
+  LEVEL 2: Variablen Vorlagen -- AUFGABENSTELLUNG
+════════════════════════════════════════════════════════════════
+
+  Schreibe dein Playbook in uebung.yml. Du fängst mit einem
+  leeren Gerüst an -- es gibt nichts auszufüllen, nur zu bauen.
+
+  Alles läuft gegen den eigenen Rechner (connection=local) und
+  schreibt nach /tmp/ansible-kurs/level2.
+
+  Prüfen mit:  ./pruefen.sh 2
+  Musterlösung danach:  Loesungen/Level_2_Variablen_Vorlagen.yml
+
+  AUFGABE 2.2
+  ──────────────────────────────────
+  Schreibe die Datei namen.txt mit den Knoten, durch Komma und
+  Leerzeichen getrennt, in GROSSBUCHSTABEN, gefolgt von einem
+  Zeilenumbruch. Erwartet: "ALPHA, BETA, GAMMA"
+
+  AUFGABE 2.3
+  ──────────────────────────────────
+  Schreibe anzahl.txt mit der Anzahl der Knoten (nur die Zahl).
+
+  AUFGABE 2.4
+  ──────────────────────────────────
+  Schreibe rechner.txt mit dem Hostnamen aus den Fakten.
+
+  AUFGABE 2.5
+  ──────────────────────────────────
+  Fülle die Vorlage dienst.conf.j2 (sie liegt neben diesem Playbook)
+  nach {{ ordner }}/dienst.conf. Welches Modul ist das richtige?
+
+  AUFGABE 2.6
+  ──────────────────────────────────
+  port.txt soll den Port enthalten -- aber aus einer Variablen,
+  die es NICHT gibt, mit 8080 als Vorgabe.
+
+  Der Prüfer lässt das Playbook zweimal laufen, wo Idempotenz
+  verlangt ist: der zweite Lauf muss changed=0 melden.

@@ -2,7 +2,7 @@
   ABSCHLUSS: Eine Rolle, die etwas ausliefert
 ════════════════════════════════════════════════════════════════
 
-  Schreibe in aufgabe.yml ein Playbook, das unter
+  Schreibe dein Playbook in uebung.yml, das unter
   /tmp/ansible-kurs/abschluss eine kleine Auslieferung erzeugt.
   Alles aus den vier Leveln kommt darin vor.
 

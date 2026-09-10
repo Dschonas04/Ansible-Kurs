@@ -1,0 +1,7 @@
+---
+# Dein Playbook. Die Aufgabenstellung steht in Aufgabenstellung.txt.
+- name: Übung
+  hosts: uebung
+  gather_facts: false
+
+  tasks: []

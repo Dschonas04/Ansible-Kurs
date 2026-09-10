@@ -27,16 +27,16 @@ while true; do
       [ -n "$auswahl" ] || { printf 'Gibt es nicht.\n'; continue; }
       while true; do
         zeige "${auswahl%/}"
-        printf '  1) Theorie lesen\n  2) Beispiel ausführen\n  3) Aufgabe im Editor öffnen\n'
+        printf '  1) Theorie und Aufgabenstellung lesen\n  2) Beispiel ausführen\n  3) Übung im Editor öffnen\n'
         printf '  4) Aufgabe prüfen\n  5) Musterlösung zeigen\n  z) zurück\n\n'
         read -r -p "Auswahl: " unter
         case "$unter" in
-          1) ${PAGER:-less} "$auswahl"/{theorie.txt,aufgabe.txt} 2>/dev/null || true ;;
+          1) ${PAGER:-less} "$auswahl"/{theorie.txt,Aufgabenstellung.txt} 2>/dev/null || true ;;
           2) bash "$auswahl/beispiel.yml"; read -r -p $'\nWeiter mit Enter…' _ ;;
-          3) ${EDITOR:-nano} "$auswahl/aufgabe.yml" ;;
+          3) ${EDITOR:-nano} "$auswahl/uebung.yml" ;;
           4) nummer="$(sed -n 's/^Level_\([0-9]*\).*/\1/p' <<<"$auswahl")"
              ./pruefen.sh "${nummer:-alle}"; read -r -p $'\nWeiter mit Enter…' _ ;;
-          5) ${PAGER:-less} "$auswahl/loesung.yml" ;;
+          5) ${PAGER:-less} "Loesungen/${auswahl%/}.yml" ;;
           z|Z) break ;;
         esac
       done

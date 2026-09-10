@@ -1,0 +1,43 @@
+════════════════════════════════════════════════════════════════
+  LEVEL 3: Schleifen Bedingungen -- AUFGABENSTELLUNG
+════════════════════════════════════════════════════════════════
+
+  Schreibe dein Playbook in uebung.yml. Du fängst mit einem
+  leeren Gerüst an -- es gibt nichts auszufüllen, nur zu bauen.
+
+  Alles läuft gegen den eigenen Rechner (connection=local) und
+  schreibt nach /tmp/ansible-kurs/level3.
+
+  Prüfen mit:  ./pruefen.sh 3
+  Musterlösung danach:  Loesungen/Level_3_Schleifen_Bedingungen.yml
+
+  AUFGABE 3.1
+  ──────────────────────────────────
+  Lege mit EINEM Task die Verzeichnisse alpha, beta und gamma an.
+
+  AUFGABE 3.2
+  ──────────────────────────────────
+  Schreibe für jeden Dienst eine Datei <name>.conf mit dem
+  Inhalt "port = <port>" und einem Zeilenumbruch.
+  Benachrichtige dabei den Handler "Marke setzen".
+
+  AUFGABE 3.3
+  ──────────────────────────────────
+  Schreibe familie.txt mit dem Inhalt "Debian" -- aber nur,
+  wenn os_family wirklich Debian ist.
+
+  AUFGABE 3.4
+  ──────────────────────────────────
+  Sieh nach, ob es web.conf gibt, und merke dir das Ergebnis.
+
+  AUFGABE 3.5
+  ──────────────────────────────────
+  Schreibe groesse.txt mit der Größe von web.conf in Bytes --
+  nur, wenn die Datei existiert.
+
+  AUFGABE 3.6
+  ──────────────────────────────────
+  Der Handler schreibt marke.txt mit "geaendert".
+
+  Der Prüfer lässt das Playbook zweimal laufen, wo Idempotenz
+  verlangt ist: der zweite Lauf muss changed=0 melden.
