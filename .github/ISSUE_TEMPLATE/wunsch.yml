@@ -1,0 +1,14 @@
+name: Wunsch oder Idee
+description: Neues Thema, neue Aufgabe, bessere Erklärung
+labels: [wunsch]
+body:
+  - type: textarea
+    id: idee
+    attributes:
+      label: Was fehlt dir?
+    validations:
+      required: true
+  - type: textarea
+    id: warum
+    attributes:
+      label: Wofür brauchst du es?

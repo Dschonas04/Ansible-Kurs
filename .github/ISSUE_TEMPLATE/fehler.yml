@@ -1,0 +1,23 @@
+name: Fehler in einer Aufgabe
+description: Aufgabe unklar, Musterlösung falsch oder Prüfer irrt sich
+labels: [fehler]
+body:
+  - type: input
+    id: stelle
+    attributes:
+      label: Level und Aufgabe
+      placeholder: z. B. Level 2, Aufgabe 2.3
+    validations:
+      required: true
+  - type: textarea
+    id: beschreibung
+    attributes:
+      label: Was ist passiert?
+      description: Was hast du erwartet, was kam stattdessen? Ausgabe des Prüfers gern einfügen.
+    validations:
+      required: true
+  - type: input
+    id: umgebung
+    attributes:
+      label: Umgebung
+      placeholder: z. B. Ubuntu 24.04, Werkzeug-Version

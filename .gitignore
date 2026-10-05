@@ -1,2 +1,8 @@
 # Nichts hier; der Kurs schreibt ausschließlich nach /tmp/ansible-kurs.
 *.retry
+
+# Betriebssystem und Editor
+.DS_Store
+Thumbs.db
+.idea/
+*.swp
